@@ -1,14 +1,8 @@
 #include "MatMul.hpp"
+#include <baseliner/Executable.hpp>
 #include <baseliner/Runner.hpp>
 #include <baseliner/StoppingCriterion.hpp>
-#include <iostream>
-#include <random>
-#include <vector>
 
-int main() {
-  std::cout << "Runner Computation Kernel" << std::endl;
-  auto stop = Baseliner::FixedRepetitionStoppingCriterion();
-  Baseliner::Runner<MatrixMulKernel, Baseliner::Backend::CudaBackend> runner_act(stop);
-  std::vector<Baseliner::float_milliseconds> res = runner_act.run();
-  std::cout << res << std::endl;
-}
+auto stop = Baseliner::ConfidenceIntervalMedianSC();
+Baseliner::Runner<MatrixMulKernel, Baseliner::Backend::CudaBackend> runner_act(stop);
+BASELINER_REGISTER_EXECUTABLE(&runner_act);

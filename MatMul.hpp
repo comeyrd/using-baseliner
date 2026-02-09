@@ -26,6 +26,7 @@
  */
 
 // Copyright 2026, Come Eyraud.
+
 #ifndef MATRIXMUL_KERNEL_HPP
 #define MATRIXMUL_KERNEL_HPP
 
@@ -113,7 +114,6 @@ public:
       return false;
     for (size_t i = 0; i < m_h_C.size(); i++) {
       if (std::abs(m_h_C[i] - other.m_h_C[i]) > 1e-3) {
-        std::cout << "Error on " << i << " " << m_h_C[i] << " vs " << other.m_h_C[i] << std::endl;
         return false;
       }
     }
@@ -130,6 +130,9 @@ public:
 
 class MatrixMulKernel : public Baseliner::ICudaKernel<MatrixMulInput, MatrixMulOutput> {
 public:
+  std::string name() override {
+    return "MatrixMulKernel";
+  };
   void cpu(MatrixMulOutput &output) override;
 
   void setup() override {
